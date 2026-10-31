@@ -1,0 +1,30 @@
+# Python 3.13.0. Native SDK build instructions are in README.md.
+# SDK source: 404-Repo/404-gen-subnet@7c5d2ffbb72a8b5ec3f499ac0d62b13aad28e7ea
+404-renderer-client==0.1.4
+404-witness-client==0.2.15
+annotated-types==0.8.0
+anyio==4.15.1
+bittensor-wallet==4.1.0
+certifi==2026.10.23
+cffi==2.1.1
+cryptography==50.0.2
+ecdsa==0.19.2
+h11==0.16.0
+httpcore==1.0.9
+httpcore2==2.16.0
+httpx==0.28.1
+httpx2==2.16.0
+idna==3.20
+jiter==0.18.0
+openai==3.29.0
+pillow==13.0.0
+pycparser==3.12
+pydantic==2.14.1
+pydantic-core==2.50.1
+six==1.17.0
+sniffio==1.3.1
+tlslite-ng==0.8.2
+truststore==0.10.5
+typing-extensions==4.16.0
+typing-inspection==0.4.4
+websockets==17.2

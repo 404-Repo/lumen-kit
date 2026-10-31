@@ -4,43 +4,21 @@ import base64
 import io
 
 from PIL import Image
+from witness_client import AsyncWitnessClient, RenderOptions
 
 SHEET = ((30, 0), (330, 0), (0, -30), (90, 0))
 VIEW_PX = 512
 
 
-def view_options(theta: int, phi: int, px: int = VIEW_PX):
-    fields = {"thetas": [theta], "phis": [phi], "img_size": px, "bg_color": "ffffff",
-              "lighting": "neutral", "cam_radius": 2.0, "cam_fov_deg": 49.1}
-    try:
-        from renderer_client import RenderOptions
-    except ImportError:
-        return fields
-    try:
-        return RenderOptions(thetas=(float(theta),), phis=(float(phi),), img_size=px, bg_color="ffffff",
-                             lighting="neutral", cam_radius=2.0, cam_fov_deg=49.1)
-    except TypeError:
-        return fields
-
-
-def grid_options(pairs, px: int):
+def grid_options(pairs, px: int) -> RenderOptions:
     thetas, phis = [t for t, _ in pairs], [p for _, p in pairs]
-    fields = {"thetas": thetas, "phis": phis, "img_size": px, "bg_color": "ffffff",
-              "lighting": "neutral", "cam_radius": 2.0, "cam_fov_deg": 49.1, "gap": 0}
-    try:
-        from renderer_client import RenderOptions
-    except ImportError:
-        return fields
-    try:
-        return RenderOptions(thetas=tuple(float(t) for t in thetas), phis=tuple(float(p) for p in phis),
-                             img_size=px, bg_color="ffffff", lighting="neutral", cam_radius=2.0,
-                             cam_fov_deg=49.1, gap=0)
-    except TypeError:
-        return fields
+    return RenderOptions(thetas=tuple(float(t) for t in thetas), phis=tuple(float(p) for p in phis),
+                         img_size=px, bg_color="ffffff", lighting="neutral", cam_radius=2.0,
+                         cam_fov_deg=49.1, gap=0)
 
 
-def _sheet(render, source: str, pairs, px: int) -> bytes:
-    im = Image.open(io.BytesIO(render(source, grid_options(pairs, px)))).convert("RGB")
+async def _sheet(witness, source: str, pairs, px: int) -> bytes:
+    im = Image.open(io.BytesIO(await witness.render(source, grid_options(pairs, px)))).convert("RGB")
     if im.size != (2 * px, 2 * px):
         gap = im.size[0] - 2 * px
         if im.size[0] == im.size[1] and gap > 0:
@@ -56,16 +34,16 @@ def _sheet(render, source: str, pairs, px: int) -> bytes:
     return buf.getvalue()
 
 
-def sheet(render, source: str) -> bytes:
-    return _sheet(render, source, SHEET, VIEW_PX)
+async def sheet(witness: AsyncWitnessClient, source: str) -> bytes:
+    return await _sheet(witness, source, SHEET, VIEW_PX)
 
 
 FRONT = ((30, 0), (330, 0), (0, 15), (0, -30))
 FRONT_PX = 384
 
 
-def front_sheet(render, source: str) -> bytes:
-    return _sheet(render, source, FRONT, FRONT_PX)
+async def front_sheet(witness: AsyncWitnessClient, source: str) -> bytes:
+    return await _sheet(witness, source, FRONT, FRONT_PX)
 
 
 def data_url(png: bytes) -> str:
