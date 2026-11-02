@@ -1,7 +1,9 @@
-# Python 3.13.0. Native SDK build instructions are in README.md.
-# SDK source: 404-Repo/404-gen-subnet@7c5d2ffbb72a8b5ec3f499ac0d62b13aad28e7ea
-404-renderer-client==0.1.4
-404-witness-client==0.2.15
+# Python 3.13.0; use the same native codec build for generation and replay.
+# Immutable SDK release: miner-runtime-v0.1.5 (witness 0.2.17, renderer 0.1.4).
+404-miner-runtime @ https://github.com/404-Repo/404-gen-subnet/releases/download/miner-runtime-v0.1.5/404_miner_runtime-0.1.5-py3-none-any.whl#sha256=db3f70f71b25f57bd06030bb637ee2e643b3a60849d541074d9da7e15ddc6f0c
+404-renderer-client @ https://github.com/404-Repo/404-gen-subnet/releases/download/miner-runtime-v0.1.5/404_renderer_client-0.1.4-py3-none-any.whl#sha256=35b1b77efe479a18713a0d817bd60749089cc7d0725c1738edbbcd8caccaa4fa
+404-witness-client @ https://github.com/404-Repo/404-gen-subnet/releases/download/miner-runtime-v0.1.5/404_witness_client-0.2.17-py3-none-macosx_13_0_arm64.whl#sha256=29c6a541d64aa5152153cef173873f8a44340a26ceb5d6beb530ba11b74a009d ; sys_platform == "darwin" and platform_machine == "arm64"
+404-witness-client @ https://github.com/404-Repo/404-gen-subnet/releases/download/miner-runtime-v0.1.5/404_witness_client-0.2.17-py3-none-manylinux_2_34_x86_64.whl#sha256=70a7fda820edaa90d109817ac671487a3ac6a053ae0bb9b17991fe858671adfd ; sys_platform == "linux" and platform_machine == "x86_64"
 annotated-types==0.8.0
 anyio==4.15.1
 bittensor-wallet==4.1.0
@@ -28,3 +30,5 @@ truststore==0.10.5
 typing-extensions==4.16.0
 typing-inspection==0.4.4
 websockets==17.2
+aiofiles==25.1.0
+loguru==0.7.3
